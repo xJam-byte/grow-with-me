@@ -33,3 +33,4 @@ export async function fetchKnowledgeHistory(): Promise<KnowledgeTopic[]> {
   const response = await apiClient.get<KnowledgeTopic[]>('/knowledge/history')
   return response.data
 }
+

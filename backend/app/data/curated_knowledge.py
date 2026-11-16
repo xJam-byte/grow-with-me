@@ -73,3 +73,4 @@ CURATED_KNOWLEDGE_TOPICS = [
         "additional_resources": "Нассим Талеб, «Одураченные случайностью»."
     }
 ]
+

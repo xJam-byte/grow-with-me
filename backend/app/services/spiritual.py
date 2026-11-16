@@ -69,3 +69,4 @@ class SpiritualService:
         daily.is_favorite = not daily.is_favorite
         await self.db.flush()
         return daily.is_favorite
+

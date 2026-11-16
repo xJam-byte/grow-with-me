@@ -28,3 +28,4 @@ async def db_session():
     async with TestSession() as session:
         yield session
         await session.rollback()
+

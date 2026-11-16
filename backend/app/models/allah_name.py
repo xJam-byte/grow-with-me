@@ -16,3 +16,4 @@ class AllahName(Base):
     explanation: Mapped[str] = mapped_column(Text, nullable=False)
     life_reflection: Mapped[str] = mapped_column(Text, nullable=False)
     source_reference: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+

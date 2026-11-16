@@ -5,6 +5,8 @@ from app.models.daily_knowledge import DailyKnowledge
 from app.models.development_area import DevelopmentArea
 from app.models.habit import Habit
 from app.models.habit_completion import HabitCompletion
+from app.models.journal import JournalEntry
+from app.models.note import Note
 from app.models.personal_principle import PersonalPrinciple
 from app.models.user import User
 
@@ -19,4 +21,6 @@ __all__ = [
     "DailyKnowledge",
     "AllahName",
     "DailyAllahName",
+    "JournalEntry",
+    "Note",
 ]

@@ -32,3 +32,4 @@ class DailyKnowledge(Base, TimestampMixin):
     __table_args__ = (
         UniqueConstraint("user_id", "knowledge_date", name="uq_user_knowledge_date"),
     )
+

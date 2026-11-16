@@ -70,3 +70,4 @@ export const useSpiritualStore = create<SpiritualState>((set, get) => ({
     }
   },
 }))
+

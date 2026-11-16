@@ -31,3 +31,4 @@ class DailySpiritualResponse(BaseModel):
 
 class SpiritualReflectionUpdate(BaseModel):
     reflection: str
+

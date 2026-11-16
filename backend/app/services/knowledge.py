@@ -94,3 +94,4 @@ class DailyKnowledgeService:
             user_question=question,
         )
         return KnowledgeAskResponse(question=question, answer=answer)
+

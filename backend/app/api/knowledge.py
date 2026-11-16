@@ -97,3 +97,4 @@ async def ask_topic_question(
         return await service.ask_question(current_user.id, knowledge_id, payload.question)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+

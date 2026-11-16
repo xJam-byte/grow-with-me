@@ -23,3 +23,4 @@ async def seed_allah_names(db: AsyncSession) -> None:
             )
             db.add(name_obj)
         await db.flush()
+

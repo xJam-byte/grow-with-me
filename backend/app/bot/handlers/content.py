@@ -97,3 +97,4 @@ async def handle_spiritual(event: Message | CallbackQuery):
         await event.message.answer(text=text, reply_markup=markup, parse_mode="Markdown")
     else:
         await event.answer(text=text, reply_markup=markup, parse_mode="Markdown")
+

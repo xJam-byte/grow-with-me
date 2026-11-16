@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage'
 import { HabitsPage } from './pages/HabitsPage'
 import { GrowthPage } from './pages/GrowthPage'
 import { JournalPage } from './pages/JournalPage'
+import { NotesPage } from './pages/NotesPage'
 import { AICoachPage } from './pages/AICoachPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { KnowledgePage } from './pages/KnowledgePage'
@@ -34,6 +35,7 @@ export const App: React.FC = () => {
           <Route path="habits" element={<HabitsPage />} />
           <Route path="growth" element={<GrowthPage />} />
           <Route path="journal" element={<JournalPage />} />
+          <Route path="notes" element={<NotesPage />} />
           <Route path="ai" element={<AICoachPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="knowledge" element={<KnowledgePage />} />

@@ -62,3 +62,4 @@ class SpiritualRepository(BaseRepository[DailyAllahName]):
 
         # Reload with name_details relationship
         return await self.get_daily_by_date(user_id, target_date)  # type: ignore
+

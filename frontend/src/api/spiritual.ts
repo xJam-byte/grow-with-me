@@ -25,3 +25,4 @@ export async function toggleSpiritualFavorite(
   const response = await apiClient.post<{ id: number; is_favorite: boolean }>(`/spiritual/${dailyId}/favorite`)
   return response.data
 }
+

@@ -27,3 +27,4 @@ class DailyAllahName(Base, TimestampMixin):
     __table_args__ = (
         UniqueConstraint("user_id", "display_date", name="uq_user_daily_allah_name"),
     )
+

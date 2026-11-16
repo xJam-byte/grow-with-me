@@ -37,3 +37,4 @@ class KnowledgeAskRequest(BaseModel):
 class KnowledgeAskResponse(BaseModel):
     question: str
     answer: str
+

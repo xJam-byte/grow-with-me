@@ -15,3 +15,4 @@ export interface KnowledgeTopic {
   user_notes?: string | null
   created_at: string
 }
+

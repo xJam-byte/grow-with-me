@@ -43,3 +43,4 @@ class DailyKnowledgeRepository(BaseRepository[DailyKnowledge]):
         )
         res = await self.db.execute(stmt)
         return list(res.scalars().all())
+

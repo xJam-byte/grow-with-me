@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Home, CheckSquare, TrendingUp, BookOpen, Bot, Settings } from 'lucide-react'
+import { Home, CheckSquare, BookOpen, FileText, Bot, Settings } from 'lucide-react'
 import { useTelegram } from '../../hooks/useTelegram'
 
 interface NavItem {
@@ -12,8 +12,8 @@ interface NavItem {
 const navItems: NavItem[] = [
   { to: '/', label: 'Главная', icon: Home },
   { to: '/habits', label: 'Привычки', icon: CheckSquare },
-  { to: '/growth', label: 'Рост', icon: TrendingUp },
   { to: '/journal', label: 'Журнал', icon: BookOpen },
+  { to: '/notes', label: 'Заметки', icon: FileText },
   { to: '/ai', label: 'AI Коуч', icon: Bot },
   { to: '/settings', label: 'Профиль', icon: Settings },
 ]
@@ -48,4 +48,3 @@ export const BottomNav: React.FC = () => {
     </nav>
   )
 }
-
