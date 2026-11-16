@@ -23,3 +23,4 @@ def get_main_menu_keyboard(mini_app_url: str) -> InlineKeyboardMarkup:
             ],
         ]
     )
+

@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from app.bot.handlers import start
+from app.bot.handlers import habits, start
 from app.config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -16,6 +16,7 @@ dp: Dispatcher = Dispatcher()
 
 # Register routers
 dp.include_router(start.router)
+dp.include_router(habits.router)
 
 
 def get_bot() -> Optional[Bot]:

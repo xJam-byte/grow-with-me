@@ -1,55 +1,41 @@
-import React, { useState } from 'react'
-import { CheckCircle2, Circle, Flame, Sparkles } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { CheckCircle2, Circle, Flame, Sparkles, AlertCircle, RefreshCw, TrendingUp } from 'lucide-react'
+import { useHabitStore } from '../stores/useHabitStore'
 import { useTelegram } from '../hooks/useTelegram'
 
-interface HabitItem {
-  id: number
-  name: string
-  category: string
-  icon: string
-  target: string
-  streak: number
-  completed: boolean
-}
-
-const initialHabits: HabitItem[] = [
-  { id: 1, name: 'Подъём в одно время', category: 'Physical', icon: '⏰', target: '07:00', streak: 5, completed: true },
-  { id: 2, name: 'Утренняя духовная практика / рефлексия', category: 'Spirituality', icon: '🤲', target: '10 мин', streak: 4, completed: true },
-  { id: 3, name: 'Чтение книги', category: 'Intellectual', icon: '📖', target: 'мин. 10 стр.', streak: 12, completed: false },
-  { id: 4, name: 'Deep Work / учёба', category: 'Academic', icon: '💻', target: 'мин. 60 мин', streak: 3, completed: false },
-  { id: 5, name: 'Практика английского', category: 'Academic', icon: '🇬🇧', target: 'мин. 20 мин', streak: 8, completed: false },
-  { id: 6, name: 'Физическая активность (тренировка / ходьба)', category: 'Physical', icon: '🏃', target: '30 мин', streak: 2, completed: false },
-  { id: 7, name: 'Узнать что-то новое', category: 'Intellectual', icon: '💡', target: 'мин. 20 мин', streak: 9, completed: false },
-  { id: 8, name: 'Сделать одно доброе дело', category: 'Spirituality', icon: '🤝', target: '1 действие', streak: 6, completed: false },
-  { id: 9, name: 'Вечерний журнал / рефлексия', category: 'Mental', icon: '📝', target: '10 мин', streak: 11, completed: false },
-  { id: 10, name: 'Сон вовремя', category: 'Physical', icon: '🌙', target: '23:30', streak: 7, completed: false },
-]
-
 export const HabitsPage: React.FC = () => {
-  const [habits, setHabits] = useState<HabitItem[]>(initialHabits)
+  const { habits, stats, loading, error, loadHabits, toggleHabit } = useHabitStore()
   const { impactOccurred } = useTelegram()
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
-  const toggleHabit = (id: number) => {
+  useEffect(() => {
+    loadHabits()
+  }, [loadHabits])
+
+  const handleToggle = (id: number) => {
     impactOccurred('medium')
-    setHabits((prev) =>
-      prev.map((h) => {
-        if (h.id === id) {
-          const nextState = !h.completed
-          return {
-            ...h,
-            completed: nextState,
-            streak: nextState ? h.streak + 1 : Math.max(0, h.streak - 1),
-          }
-        }
-        return h
-      })
-    )
+    toggleHabit(id)
   }
 
+  const categories = [
+    { key: 'all', label: 'Все' },
+    { key: 'spirituality', label: 'Духовность' },
+    { key: 'intellectual', label: 'Интеллект' },
+    { key: 'physical', label: 'Тело' },
+    { key: 'mental', label: 'Ментальность' },
+    { key: 'academic', label: 'Учёба' },
+  ]
+
+  const filteredHabits = habits.filter((h) => {
+    if (selectedCategory === 'all') return true
+    return h.category.toLowerCase() === selectedCategory.toLowerCase()
+  })
+
   const completedCount = habits.filter((h) => h.completed).length
+  const totalCount = habits.length
 
   return (
-    <div className="space-y-4 animate-fade-in">
+    <div className="space-y-4 animate-fade-in pb-4">
       {/* Header bar */}
       <div className="flex items-center justify-between">
         <div>
@@ -58,18 +44,81 @@ export const HabitsPage: React.FC = () => {
             Принцип: «Никогда не пропускай дважды»
           </p>
         </div>
-        <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-xs font-semibold">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>{completedCount} / {habits.length}</span>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => loadHabits()}
+            disabled={loading}
+            aria-label="Refresh habits"
+            className="p-1.5 rounded-full hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)]"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+          </button>
+          <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-xs font-semibold">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>
+              {completedCount} / {totalCount}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Habit Cards */}
+      {/* Stats summary if available */}
+      {stats && (
+        <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-3 flex items-center justify-between text-xs shadow-sm">
+          <div className="flex items-center space-x-2">
+            <div className="p-1.5 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
+              <TrendingUp className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <span className="text-[var(--text-secondary)] block text-[10px]">Недельный темп</span>
+              <span className="font-bold text-[var(--text-primary)]">
+                {stats.weekly_completion_percentage}% выполнено
+              </span>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-[var(--text-secondary)] block text-[10px]">Сегодня</span>
+            <span className="font-bold text-[var(--accent)]">
+              {stats.completion_percentage}%
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Category Pills */}
+      <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 no-scrollbar">
+        {categories.map((cat) => (
+          <button
+            key={cat.key}
+            onClick={() => {
+              impactOccurred('light')
+              setSelectedCategory(cat.key)
+            }}
+            className={`text-xs px-3 py-1.5 rounded-xl font-medium whitespace-nowrap transition-colors ${
+              selectedCategory === cat.key
+                ? 'bg-[var(--accent)] text-white shadow-sm'
+                : 'bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Error display */}
+      {error && (
+        <div className="flex items-center space-x-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {/* Habit List */}
       <div className="space-y-2">
-        {habits.map((habit) => (
+        {filteredHabits.map((habit) => (
           <div
             key={habit.id}
-            onClick={() => toggleHabit(habit.id)}
+            onClick={() => handleToggle(habit.id)}
             className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer select-none active:scale-[0.98] ${
               habit.completed
                 ? 'bg-[var(--bg-card)] border-emerald-500/30 shadow-sm'
@@ -89,7 +138,9 @@ export const HabitsPage: React.FC = () => {
                   {habit.name}
                 </h4>
                 <div className="flex items-center space-x-2 text-[11px] text-[var(--text-secondary)] mt-0.5">
-                  <span>Цель: {habit.target}</span>
+                  <span>
+                    Цель: {habit.target_value} {habit.target_unit || ''}
+                  </span>
                   <span>•</span>
                   <span className="flex items-center text-amber-500">
                     <Flame className="w-3 h-3 mr-0.5" />
@@ -111,6 +162,12 @@ export const HabitsPage: React.FC = () => {
             </button>
           </div>
         ))}
+
+        {filteredHabits.length === 0 && !loading && (
+          <div className="text-center py-10 text-[var(--text-secondary)] text-xs">
+            Нет привычек в этой категории
+          </div>
+        )}
       </div>
     </div>
   )

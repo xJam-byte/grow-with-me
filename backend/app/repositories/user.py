@@ -45,3 +45,4 @@ class UserRepository(BaseRepository[User]):
                 await self.db.flush()
                 await self.db.refresh(user)
         return user
+

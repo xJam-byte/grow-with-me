@@ -12,3 +12,4 @@ def test_telegram_auth_dev_fallback():
 def test_telegram_auth_empty():
     result = parse_and_validate_init_data("", bot_token="token")
     assert result is None
+

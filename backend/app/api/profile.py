@@ -29,3 +29,4 @@ async def update_my_profile(
     await db.flush()
     await db.refresh(current_user)
     return current_user
+

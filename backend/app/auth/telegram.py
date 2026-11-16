@@ -64,3 +64,4 @@ def parse_and_validate_init_data(
         return None
     except Exception:
         return None
+

@@ -45,3 +45,4 @@ async def handle_start(message: Message):
         reply_markup=get_main_menu_keyboard(settings.telegram_mini_app_url),
         parse_mode="Markdown",
     )
+

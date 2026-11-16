@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api import profile
+from app.api import habits, profile
 
 api_router = APIRouter()
 
@@ -13,3 +13,4 @@ async def health_check():
     }
 
 api_router.include_router(profile.router)
+api_router.include_router(habits.router)

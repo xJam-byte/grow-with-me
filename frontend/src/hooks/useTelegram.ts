@@ -71,3 +71,4 @@ export function useTelegram() {
     ready: () => tg?.ready(),
   }
 }
+

@@ -21,10 +21,13 @@ Grow With Me — это персональная операционная сис
 ### 1. Клонирование и настройка окружения
 
 Скопируйте пример файла конфигурации:
+
 ```bash
 cp .env.example .env
 ```
+
 Заполните в `.env`:
+
 - `TELEGRAM_BOT_TOKEN` — токен от @BotFather
 - `DATABASE_URL` — строка подключения к PostgreSQL
 - `OPENAI_API_KEY` — ключ OpenAI API
@@ -34,6 +37,7 @@ cp .env.example .env
 ```bash
 docker compose up -d
 ```
+
 Запустится контейнер PostgreSQL 16 на порту `5432`.
 
 ### 3. Запуск Backend
@@ -47,6 +51,7 @@ cd backend
 # Запуск сервера разработки
 uvicorn app.main:app --reload --port 8000
 ```
+
 Swagger-документация API будет доступна по адресу: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ### 4. Запуск Frontend (Mini App)
@@ -55,6 +60,7 @@ Swagger-документация API будет доступна по адрес
 cd frontend
 npm run dev
 ```
+
 Интерфейс Mini App будет доступен по адресу: [http://localhost:5173](http://localhost:5173)
 
 ---
@@ -62,12 +68,14 @@ npm run dev
 ## 🧪 Тестирование
 
 Запуск тестов backend:
+
 ```bash
 cd backend
 .venv\Scripts\pytest
 ```
 
 Сборка frontend (проверка типов TypeScript):
+
 ```bash
 cd frontend
 npm run build

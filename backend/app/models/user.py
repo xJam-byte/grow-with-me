@@ -64,3 +64,4 @@ class User(Base, TimestampMixin):
     timezone: Mapped[str] = mapped_column(String(50), default="UTC", nullable=False)
     language: Mapped[str] = mapped_column(String(10), default="ru", nullable=False)
     theme: Mapped[str] = mapped_column(String(10), default="dark", nullable=False)
+

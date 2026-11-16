@@ -59,3 +59,4 @@ async def get_current_user(
         last_name=parsed_user.get("last_name"),
     )
     return user
+

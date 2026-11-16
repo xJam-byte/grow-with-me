@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     telegram_webhook_url: str = ""
 
     # Database
-    database_url: str = "postgresql+asyncpg://postgres:postgrespassword@localhost:5432/grow_with_me"
+    database_url: str = "postgresql+asyncpg://postgres:postgrespassword@localhost:5433/grow_with_me"
 
     # OpenAI
     openai_api_key: str = ""

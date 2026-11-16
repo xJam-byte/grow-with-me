@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCircle2, BookOpen, Compass, ChevronRight, Zap, Target } from 'lucide-react'
+import { CheckCircle2, Circle, BookOpen, Compass, ChevronRight, Zap, Target } from 'lucide-react'
 import { useTelegram } from '../hooks/useTelegram'
+import { useHabitStore } from '../stores/useHabitStore'
 
 export const HomePage: React.FC = () => {
-  const { user } = useTelegram()
+  const { user, impactOccurred } = useTelegram()
+  const { habits, loadHabits, toggleHabit } = useHabitStore()
+
+  useEffect(() => {
+    loadHabits()
+  }, [loadHabits])
 
   const todayStr = new Intl.DateTimeFormat('ru-RU', {
     weekday: 'long',
@@ -12,19 +18,19 @@ export const HomePage: React.FC = () => {
     month: 'long',
   }).format(new Date())
 
-  // Sample habits for preview
-  const sampleHabits = [
-    { name: 'Подъём в одно время', completed: true, icon: '⏰' },
-    { name: 'Утренняя рефлексия', completed: true, icon: '🤲' },
-    { name: 'Чтение книги (10 стр.)', completed: false, icon: '📖' },
-    { name: 'Deep Work (60 мин)', completed: false, icon: '💻' },
-    { name: 'Английский (20 мин)', completed: false, icon: '🇬🇧' },
-  ]
+  const completedCount = habits.filter((h) => h.completed).length
+  const totalCount = habits.length || 10
+  const percentage = Math.round((completedCount / totalCount) * 100)
 
-  const completedCount = sampleHabits.filter((h) => h.completed).length
+  const handleQuickToggle = (id: number, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    impactOccurred('medium')
+    toggleHabit(id)
+  }
 
   return (
-    <div className="space-y-4 animate-fade-in">
+    <div className="space-y-4 animate-fade-in pb-4">
       {/* Greeting card */}
       <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm">
         <div className="flex items-center justify-between mb-1">
@@ -56,7 +62,7 @@ export const HomePage: React.FC = () => {
             to="/habits"
             className="text-xs text-[var(--accent)] hover:text-[var(--accent-hover)] font-medium flex items-center"
           >
-            Все (10) <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
+            Все ({habits.length}) <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
           </Link>
         </div>
 
@@ -65,35 +71,44 @@ export const HomePage: React.FC = () => {
           <div className="flex justify-between text-xs mb-1.5">
             <span className="text-[var(--text-secondary)]">Прогресс дня</span>
             <span className="font-semibold text-[var(--text-primary)]">
-              {completedCount} из {sampleHabits.length} ({Math.round((completedCount / sampleHabits.length) * 100)}%)
+              {completedCount} из {totalCount} ({percentage}%)
             </span>
           </div>
           <div className="w-full h-2 bg-[var(--bg-secondary)] rounded-full overflow-hidden">
             <div
               className="h-full bg-[var(--accent)] rounded-full transition-all duration-300"
-              style={{ width: `${(completedCount / sampleHabits.length) * 100}%` }}
+              style={{ width: `${percentage}%` }}
             />
           </div>
         </div>
 
-        {/* Quick habit list */}
+        {/* Quick habit list (top 4) */}
         <div className="space-y-1.5">
-          {sampleHabits.slice(0, 4).map((h, i) => (
+          {habits.slice(0, 4).map((h) => (
             <div
-              key={i}
-              className="flex items-center justify-between p-2 rounded-xl bg-[var(--bg-secondary)] text-xs"
+              key={h.id}
+              onClick={(e) => handleQuickToggle(h.id, e)}
+              className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--bg-secondary)] text-xs cursor-pointer hover:bg-[var(--bg-secondary)]/80 transition-colors"
             >
-              <div className="flex items-center space-x-2">
-                <span>{h.icon}</span>
-                <span className={h.completed ? 'line-through text-[var(--text-secondary)]' : 'text-[var(--text-primary)]'}>
+              <div className="flex items-center space-x-2.5">
+                <span className="text-base">{h.icon}</span>
+                <span
+                  className={
+                    h.completed
+                      ? 'line-through text-[var(--text-secondary)]'
+                      : 'text-[var(--text-primary)] font-medium'
+                  }
+                >
                   {h.name}
                 </span>
               </div>
-              <CheckCircle2
-                className={`w-4 h-4 ${
-                  h.completed ? 'text-[var(--success)]' : 'text-[var(--text-secondary)]'
-                }`}
-              />
+              <button aria-label="Toggle habit">
+                {h.completed ? (
+                  <CheckCircle2 className="w-4 h-4 text-[var(--success)] transition-transform scale-105" />
+                ) : (
+                  <Circle className="w-4 h-4 text-[var(--text-secondary)]" />
+                )}
+              </button>
             </div>
           ))}
         </div>

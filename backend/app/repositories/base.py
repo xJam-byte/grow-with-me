@@ -21,3 +21,4 @@ class BaseRepository(Generic[ModelType]):
         await self.db.flush()
         await self.db.refresh(entity)
         return entity
+
