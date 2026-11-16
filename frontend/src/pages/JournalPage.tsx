@@ -24,7 +24,7 @@ export const JournalPage: React.FC = () => {
 
   useEffect(() => {
     loadToday()
-  }, [loadToday])
+  }, [])
 
   useEffect(() => {
     if (todayEntry) {

@@ -15,7 +15,7 @@ export const SpiritualPage: React.FC = () => {
   useEffect(() => {
     loadTodaySpiritual()
     loadAllNames()
-  }, [loadTodaySpiritual, loadAllNames])
+  }, [])
 
   useEffect(() => {
     if (daily?.user_reflection) {

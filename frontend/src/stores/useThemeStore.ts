@@ -6,9 +6,10 @@ interface ThemeState {
   toggleTheme: () => void
 }
 
-export const useThemeStore = create<ThemeState>((set) => ({
+export const useThemeStore = create<ThemeState>((set, get) => ({
   theme: 'dark',
   setTheme: (theme) => {
+    if (get().theme === theme) return
     document.documentElement.classList.toggle('dark', theme === 'dark')
     set({ theme })
   },

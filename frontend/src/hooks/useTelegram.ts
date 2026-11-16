@@ -32,30 +32,41 @@ declare global {
   }
 }
 
+const defaultUser = {
+  id: 123456789,
+  first_name: 'Пользователь',
+  username: 'developer',
+}
+
+const impactOccurred = (style: 'light' | 'medium' | 'heavy' = 'light') => {
+  window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(style)
+}
+
+const notificationOccurred = (type: 'error' | 'success' | 'warning') => {
+  window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred(type)
+}
+
+const selectionChanged = () => {
+  window.Telegram?.WebApp?.HapticFeedback?.selectionChanged()
+}
+
+const expand = () => {
+  window.Telegram?.WebApp?.expand()
+}
+
+const close = () => {
+  window.Telegram?.WebApp?.close()
+}
+
+const ready = () => {
+  window.Telegram?.WebApp?.ready()
+}
+
 export function useTelegram() {
-  const tg = window.Telegram?.WebApp
-
+  const tg = typeof window !== 'undefined' ? window.Telegram?.WebApp : undefined
   const isAvailable = Boolean(tg && tg.initData)
-
-  const user = tg?.initDataUnsafe?.user || {
-    id: 123456789,
-    first_name: 'Пользователь',
-    username: 'developer',
-  }
-
+  const user = tg?.initDataUnsafe?.user || defaultUser
   const initData = tg?.initData || 'dev_123456789'
-
-  const impactOccurred = (style: 'light' | 'medium' | 'heavy' = 'light') => {
-    tg?.HapticFeedback?.impactOccurred(style)
-  }
-
-  const notificationOccurred = (type: 'error' | 'success' | 'warning') => {
-    tg?.HapticFeedback?.notificationOccurred(type)
-  }
-
-  const selectionChanged = () => {
-    tg?.HapticFeedback?.selectionChanged()
-  }
 
   return {
     tg,
@@ -66,9 +77,9 @@ export function useTelegram() {
     impactOccurred,
     notificationOccurred,
     selectionChanged,
-    expand: () => tg?.expand(),
-    close: () => tg?.close(),
-    ready: () => tg?.ready(),
+    expand,
+    close,
+    ready,
   }
 }
 

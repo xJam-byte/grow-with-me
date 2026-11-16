@@ -43,7 +43,7 @@ export const NotesPage: React.FC = () => {
 
   useEffect(() => {
     loadNotes()
-  }, [loadNotes])
+  }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()

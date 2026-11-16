@@ -16,7 +16,7 @@ export const HomePage: React.FC = () => {
     loadHabits()
     loadTodayTopic()
     loadTodaySpiritual()
-  }, [loadHabits, loadTodayTopic, loadTodaySpiritual])
+  }, [])
 
   const todayStr = new Intl.DateTimeFormat('ru-RU', {
     weekday: 'long',

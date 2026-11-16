@@ -23,7 +23,7 @@ export const KnowledgePage: React.FC = () => {
 
   useEffect(() => {
     loadTodayTopic()
-  }, [loadTodayTopic])
+  }, [])
 
   useEffect(() => {
     if (topic?.user_notes) {

@@ -9,7 +9,7 @@ export const SettingsPage: React.FC = () => {
 
   useEffect(() => {
     loadProfile()
-  }, [loadProfile])
+  }, [])
 
   const principles = [
     'Держи своё слово.',

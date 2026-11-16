@@ -10,7 +10,7 @@ export const HabitsPage: React.FC = () => {
 
   useEffect(() => {
     loadHabits()
-  }, [loadHabits])
+  }, [])
 
   const handleToggle = (id: number) => {
     impactOccurred('medium')

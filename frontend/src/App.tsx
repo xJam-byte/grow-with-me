@@ -23,9 +23,11 @@ export const App: React.FC = () => {
     expand()
 
     // Respect telegram color scheme if present
-    const isDark = window.Telegram?.WebApp?.colorScheme === 'dark' || true
-    setTheme(isDark ? 'dark' : 'light')
-  }, [ready, expand, setTheme])
+    const tgScheme = window.Telegram?.WebApp?.colorScheme
+    if (tgScheme) {
+      setTheme(tgScheme)
+    }
+  }, [])
 
   return (
     <BrowserRouter>
