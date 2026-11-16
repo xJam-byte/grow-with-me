@@ -77,3 +77,4 @@ export const useJournalStore = create<JournalState>((set) => ({
     }
   },
 }))
+

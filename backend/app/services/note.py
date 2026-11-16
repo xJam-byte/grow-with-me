@@ -75,3 +75,4 @@ class NoteService:
 
     async def toggle_favorite(self, user_id: int, note_id: int) -> bool:
         return await self.repo.toggle_favorite(note_id, user_id)
+

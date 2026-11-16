@@ -108,3 +108,4 @@ async def toggle_note_favorite(
         return {"id": note_id, "is_favorite": is_favorite}
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+

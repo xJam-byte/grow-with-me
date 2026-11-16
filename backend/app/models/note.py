@@ -20,3 +20,4 @@ class Note(Base, TimestampMixin):
     )  # quick_notes, ideas, book_notes, quotes, learning, goals
     tags: Mapped[Optional[List[str]]] = mapped_column(JSONB, nullable=True, default=list)
     is_favorite: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+

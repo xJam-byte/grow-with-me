@@ -31,3 +31,4 @@ class JournalResponse(BaseModel):
 class JournalStatsResponse(BaseModel):
     total_entries: int
     streak_days: int
+

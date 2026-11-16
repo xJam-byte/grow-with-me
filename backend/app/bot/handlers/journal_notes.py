@@ -112,3 +112,4 @@ async def handle_quick_note(message: Message):
         reply_markup=markup,
         parse_mode="Markdown",
     )
+

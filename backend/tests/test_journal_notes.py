@@ -82,3 +82,4 @@ async def test_notes_flow(db_session):
     deleted = await service.delete_note(user.id, created.id)
     assert deleted is True
     assert await service.get_note(user.id, created.id) is None
+

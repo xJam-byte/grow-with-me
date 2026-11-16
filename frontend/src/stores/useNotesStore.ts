@@ -132,3 +132,4 @@ export const useNotesStore = create<NotesState>((set, get) => ({
     }
   },
 }))
+

@@ -16,3 +16,4 @@ export interface JournalStats {
   total_entries: number
   streak_days: number
 }
+

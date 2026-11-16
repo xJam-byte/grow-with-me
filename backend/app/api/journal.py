@@ -70,3 +70,4 @@ async def get_journal_by_date(
             detail=f"No journal entry found for {entry_date}",
         )
     return entry
+

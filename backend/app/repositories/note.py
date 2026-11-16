@@ -62,3 +62,4 @@ class NoteRepository(BaseRepository[Note]):
         note.is_favorite = not note.is_favorite
         await self.db.flush()
         return note.is_favorite
+

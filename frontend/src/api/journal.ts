@@ -29,3 +29,4 @@ export async function fetchJournalStats(): Promise<JournalStats> {
   const response = await apiClient.get<JournalStats>('/journal/stats')
   return response.data
 }
+

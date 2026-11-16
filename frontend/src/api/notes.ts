@@ -43,3 +43,4 @@ export async function searchNotesApi(q: string): Promise<NoteItem[]> {
   })
   return response.data
 }
+

@@ -167,11 +167,13 @@ export const HomePage: React.FC = () => {
             <span className="text-[11px] font-semibold">Имя Аллаха</span>
           </div>
           <h4 className="text-xs font-semibold text-[var(--text-primary)]">
-            {daily?.name.transliteration || 'Аль-Алим'}{' '}
-            <span className="font-serif text-emerald-400">({daily?.name.arabic_name || 'العليم'})</span>
+            {daily?.name?.transliteration || 'Аль-Алим'}{' '}
+            <span className="font-serif text-emerald-400">
+              ({daily?.name?.arabic_name || 'العليم'})
+            </span>
           </h4>
           <p className="text-[11px] text-[var(--text-secondary)] line-clamp-2 mt-0.5">
-            {daily?.name.meaning_ru || 'Всезнающий, ведающий обо всём сущем.'}
+            {daily?.name?.meaning_ru || 'Всезнающий, ведающий обо всём сущем.'}
           </p>
           <div className="mt-2 text-[10px] text-emerald-500 font-medium flex items-center">
             Изучить <ChevronRight className="w-3 h-3 ml-0.5" />

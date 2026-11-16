@@ -43,3 +43,4 @@ class JournalService:
         total = await self.repo.get_total_count(user_id)
         streak = await self.repo.calculate_streak(user_id, today)
         return JournalStatsResponse(total_entries=total, streak_days=streak)
+

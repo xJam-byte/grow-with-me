@@ -34,3 +34,4 @@ class JournalEntry(Base, TimestampMixin):
     __table_args__ = (
         UniqueConstraint("user_id", "entry_date", name="uq_user_journal_date"),
     )
+

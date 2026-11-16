@@ -103,3 +103,4 @@ class JournalRepository(BaseRepository[JournalEntry]):
             check_date -= timedelta(days=1)
 
         return streak
+
