@@ -69,3 +69,4 @@ class HabitStatsResponse(BaseModel):
     completion_percentage: float
     weekly_completion_percentage: float
     active_streaks: Dict[int, int]  # habit_id -> streak days
+

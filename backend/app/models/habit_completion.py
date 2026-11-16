@@ -34,3 +34,4 @@ class HabitCompletion(Base):
     __table_args__ = (
         UniqueConstraint("habit_id", "completion_date", name="uq_habit_date"),
     )
+

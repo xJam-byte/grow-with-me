@@ -111,3 +111,4 @@ class HabitService:
             weekly_completion_percentage=round(weekly_percentage, 1),
             active_streaks=streaks,
         )
+

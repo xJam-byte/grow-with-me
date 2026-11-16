@@ -7,6 +7,8 @@ import { GrowthPage } from './pages/GrowthPage'
 import { JournalPage } from './pages/JournalPage'
 import { AICoachPage } from './pages/AICoachPage'
 import { SettingsPage } from './pages/SettingsPage'
+import { KnowledgePage } from './pages/KnowledgePage'
+import { SpiritualPage } from './pages/SpiritualPage'
 import { useTelegram } from './hooks/useTelegram'
 import { useThemeStore } from './stores/useThemeStore'
 
@@ -34,6 +36,8 @@ export const App: React.FC = () => {
           <Route path="journal" element={<JournalPage />} />
           <Route path="ai" element={<AICoachPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="knowledge" element={<KnowledgePage />} />
+          <Route path="spiritual" element={<SpiritualPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

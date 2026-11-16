@@ -99,3 +99,4 @@ async def handle_toggle_callback(callback: CallbackQuery):
         await callback.message.edit_text(text=text, reply_markup=markup, parse_mode="Markdown")
     except Exception:
         pass  # Message already up to date
+

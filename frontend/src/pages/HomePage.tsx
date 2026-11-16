@@ -3,14 +3,20 @@ import { Link } from 'react-router-dom'
 import { CheckCircle2, Circle, BookOpen, Compass, ChevronRight, Zap, Target } from 'lucide-react'
 import { useTelegram } from '../hooks/useTelegram'
 import { useHabitStore } from '../stores/useHabitStore'
+import { useKnowledgeStore } from '../stores/useKnowledgeStore'
+import { useSpiritualStore } from '../stores/useSpiritualStore'
 
 export const HomePage: React.FC = () => {
   const { user, impactOccurred } = useTelegram()
   const { habits, loadHabits, toggleHabit } = useHabitStore()
+  const { topic, loadTodayTopic } = useKnowledgeStore()
+  const { daily, loadTodaySpiritual } = useSpiritualStore()
 
   useEffect(() => {
     loadHabits()
-  }, [loadHabits])
+    loadTodayTopic()
+    loadTodaySpiritual()
+  }, [loadHabits, loadTodayTopic, loadTodaySpiritual])
 
   const todayStr = new Intl.DateTimeFormat('ru-RU', {
     weekday: 'long',
@@ -129,33 +135,48 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Daily Knowledge & Spiritual Teasers */}
+      {/* Daily Knowledge & Spiritual Teasers with Real Links */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-3.5 shadow-sm">
+        {/* Daily Knowledge Card */}
+        <Link
+          to="/knowledge"
+          className="bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--accent)]/50 rounded-2xl p-3.5 shadow-sm transition-all duration-200 block select-none active:scale-[0.98]"
+        >
           <div className="flex items-center space-x-1.5 text-[var(--accent)] mb-1.5">
             <BookOpen className="w-4 h-4" />
             <span className="text-[11px] font-semibold">Тема дня</span>
           </div>
           <h4 className="text-xs font-semibold text-[var(--text-primary)] line-clamp-1">
-            Когнитивные искажения
+            {topic?.topic_title || 'Когнитивные искажения'}
           </h4>
           <p className="text-[11px] text-[var(--text-secondary)] line-clamp-2 mt-0.5">
-            Эффект привязки (Anchoring effect) в принятии решений.
+            {topic?.introduction || 'Эффект привязки в принятии решений.'}
           </p>
-        </div>
+          <div className="mt-2 text-[10px] text-[var(--accent)] font-medium flex items-center">
+            Читать <ChevronRight className="w-3 h-3 ml-0.5" />
+          </div>
+        </Link>
 
-        <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-3.5 shadow-sm">
+        {/* Daily Spiritual Card */}
+        <Link
+          to="/spiritual"
+          className="bg-[var(--bg-card)] border border-[var(--border)] hover:border-emerald-500/50 rounded-2xl p-3.5 shadow-sm transition-all duration-200 block select-none active:scale-[0.98]"
+        >
           <div className="flex items-center space-x-1.5 text-emerald-500 mb-1.5">
             <Compass className="w-4 h-4" />
             <span className="text-[11px] font-semibold">Имя Аллаха</span>
           </div>
           <h4 className="text-xs font-semibold text-[var(--text-primary)]">
-            Аль-Алим (العليم)
+            {daily?.name.transliteration || 'Аль-Алим'}{' '}
+            <span className="font-serif text-emerald-400">({daily?.name.arabic_name || 'العليم'})</span>
           </h4>
           <p className="text-[11px] text-[var(--text-secondary)] line-clamp-2 mt-0.5">
-            Всезнающий, ведающий обо всём сущем.
+            {daily?.name.meaning_ru || 'Всезнающий, ведающий обо всём сущем.'}
           </p>
-        </div>
+          <div className="mt-2 text-[10px] text-emerald-500 font-medium flex items-center">
+            Изучить <ChevronRight className="w-3 h-3 ml-0.5" />
+          </div>
+        </Link>
       </div>
     </div>
   )

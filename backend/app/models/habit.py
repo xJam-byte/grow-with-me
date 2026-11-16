@@ -38,3 +38,4 @@ class Habit(Base, TimestampMixin):
     # Relationships
     development_area = relationship("DevelopmentArea", back_populates="habits")
     completions = relationship("HabitCompletion", back_populates="habit", cascade="all, delete-orphan")
+

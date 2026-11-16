@@ -120,3 +120,4 @@ async def update_habit(
     await db.flush()
     await db.refresh(habit)
     return habit
+

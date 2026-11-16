@@ -208,3 +208,4 @@ async def seed_user_defaults(user_id: int, db: AsyncSession) -> None:
             db.add(principle)
 
     await db.flush()
+

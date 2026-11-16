@@ -22,3 +22,4 @@ export async function fetchHabitStats(): Promise<HabitStats> {
   const response = await apiClient.get<HabitStats>('/habits/stats')
   return response.data
 }
+

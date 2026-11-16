@@ -126,3 +126,4 @@ class HabitRepository(BaseRepository[Habit]):
             check_date -= timedelta(days=1)
 
         return streak
+

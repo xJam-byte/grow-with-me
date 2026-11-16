@@ -15,3 +15,4 @@ class PersonalPrinciple(Base, TimestampMixin):
     category: Mapped[str] = mapped_column(String(50), default="general")
     sort_order: Mapped[int] = mapped_column(Integer, default=0)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+

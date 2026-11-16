@@ -25,3 +25,4 @@ export interface HabitStats {
   weekly_completion_percentage: number
   active_streaks: Record<number, number>
 }
+

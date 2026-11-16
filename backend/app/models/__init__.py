@@ -1,4 +1,7 @@
+from app.models.allah_name import AllahName
 from app.models.base import Base, TimestampMixin
+from app.models.daily_allah_name import DailyAllahName
+from app.models.daily_knowledge import DailyKnowledge
 from app.models.development_area import DevelopmentArea
 from app.models.habit import Habit
 from app.models.habit_completion import HabitCompletion
@@ -13,4 +16,7 @@ __all__ = [
     "Habit",
     "HabitCompletion",
     "PersonalPrinciple",
+    "DailyKnowledge",
+    "AllahName",
+    "DailyAllahName",
 ]
