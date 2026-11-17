@@ -11,6 +11,8 @@ from app.models.note import Note
 from app.models.personal_principle import PersonalPrinciple
 from app.models.user import User
 
+from app.models.weekly_assessment import WeeklyAssessment
+
 __all__ = [
     "Base",
     "TimestampMixin",
@@ -27,4 +29,5 @@ __all__ = [
     "AIConversation",
     "AIMessage",
     "AITokenUsage",
+    "WeeklyAssessment",
 ]

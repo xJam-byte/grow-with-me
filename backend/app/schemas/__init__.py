@@ -6,6 +6,14 @@ from app.schemas.ai import (
     AIPreferencesUpdate,
     AIUsageResponse,
 )
+from app.schemas.progress import (
+    AreaProgressItem,
+    DailyHeatmapItem,
+    DashboardProgressResponse,
+    HabitStreakItem,
+    WeeklyAssessmentCreate,
+    WeeklyAssessmentResponse,
+)
 from app.schemas.user import UserBase, UserResponse, UserUpdate
 
 __all__ = [
@@ -18,5 +26,11 @@ __all__ = [
     "AIMessageResponse",
     "AIPreferencesUpdate",
     "AIUsageResponse",
+    "WeeklyAssessmentCreate",
+    "WeeklyAssessmentResponse",
+    "AreaProgressItem",
+    "DailyHeatmapItem",
+    "HabitStreakItem",
+    "DashboardProgressResponse",
 ]
 
