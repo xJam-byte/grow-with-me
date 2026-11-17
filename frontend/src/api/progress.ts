@@ -32,3 +32,4 @@ export async function generateWeeklyReportApi(assessmentId: number): Promise<Wee
   const res = await apiClient.post<WeeklyAssessment>(`/assessment/${assessmentId}/generate-report`)
   return res.data
 }
+

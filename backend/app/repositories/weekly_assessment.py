@@ -101,3 +101,4 @@ class WeeklyAssessmentRepository(BaseRepository[WeeklyAssessment]):
             await self.db.commit()
             await self.db.refresh(record)
         return record
+

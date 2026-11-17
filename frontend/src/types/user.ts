@@ -20,6 +20,24 @@ export interface AIPreferences {
   max_daily_tokens: number
 }
 
+export interface PersonalPrincipleItem {
+  id: number
+  text: string
+  category: string
+  sort_order: number
+  is_active: boolean
+  created_at: string
+}
+
+export interface UserDataExport {
+  export_date: string
+  user: Record<string, any>
+  principles: Array<Record<string, any>>
+  habits: Array<Record<string, any>>
+  journal_entries: Array<Record<string, any>>
+  notes: Array<Record<string, any>>
+  weekly_assessments: Array<Record<string, any>>
+}
 export interface UserProfile {
   id: number
   telegram_id: number

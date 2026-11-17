@@ -1,6 +1,6 @@
 from datetime import datetime
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, ConfigDict
+from typing import Any, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class UserBase(BaseModel):
@@ -33,3 +33,37 @@ class UserResponse(UserBase):
 
     model_config = ConfigDict(from_attributes=True)
 
+
+class PersonalPrincipleCreate(BaseModel):
+    text: str = Field(..., min_length=2, max_length=500)
+    category: str = Field("general", max_length=50)
+    sort_order: int = 0
+
+
+class PersonalPrincipleUpdate(BaseModel):
+    text: Optional[str] = Field(None, min_length=2, max_length=500)
+    category: Optional[str] = None
+    sort_order: Optional[int] = None
+    is_active: Optional[bool] = None
+
+
+class PersonalPrincipleResponse(BaseModel):
+    id: int
+    user_id: int
+    text: str
+    category: str
+    sort_order: int
+    is_active: bool
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UserDataExportResponse(BaseModel):
+    export_date: str
+    user: Dict[str, Any]
+    principles: List[Dict[str, Any]]
+    habits: List[Dict[str, Any]]
+    journal_entries: List[Dict[str, Any]]
+    notes: List[Dict[str, Any]]
+    weekly_assessments: List[Dict[str, Any]]

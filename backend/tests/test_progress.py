@@ -87,3 +87,4 @@ async def test_weekly_assessment_and_ai_report(db_session):
     # 4. Retrieve History
     history = await progress_service.get_assessment_history(user.id, limit=5)
     assert len(history) >= 1
+

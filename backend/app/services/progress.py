@@ -396,3 +396,4 @@ class ProgressService:
 
         updated = await self.assessment_repo.update_ai_report(assessment_id, user_id, report_data)
         return WeeklyAssessmentResponse.model_validate(updated)
+

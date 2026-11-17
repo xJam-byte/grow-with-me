@@ -80,3 +80,4 @@ async def generate_weekly_report(
         return await service.generate_ai_report(user.id, assessment_id)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+

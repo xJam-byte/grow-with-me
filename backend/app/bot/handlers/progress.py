@@ -108,3 +108,4 @@ async def handle_assessment_command(message: Message):
         ]
     )
     await message.answer(text=text, reply_markup=markup, parse_mode="Markdown")
+

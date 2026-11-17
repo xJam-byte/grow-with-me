@@ -34,3 +34,4 @@ class WeeklyAssessment(Base, TimestampMixin):
 
     # Generated AI Report
     ai_report: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+

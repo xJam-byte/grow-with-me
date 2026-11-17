@@ -1,8 +1,11 @@
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.api.router import api_router
 from app.bot.bot import dp, get_bot
@@ -61,6 +64,17 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+# Global error handler for uncaught server errors
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    if isinstance(exc, (StarletteHTTPException, RequestValidationError)):
+        raise exc
+    logger.error(f"Unhandled error on {request.method} {request.url.path}: {exc}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Внутренняя ошибка сервера. Пожалуйста, попробуйте позже."},
+    )
 
 # CORS configuration
 app.add_middleware(

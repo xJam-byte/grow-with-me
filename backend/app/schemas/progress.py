@@ -80,3 +80,4 @@ class DashboardProgressResponse(BaseModel):
     weekly_chart: List[DailyHeatmapItem]
     monthly_heatmap: List[DailyHeatmapItem]
     streaks: List[HabitStreakItem]
+

@@ -5,6 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.pool import NullPool
 
 from app.config import get_settings
+from app.database import get_db
+from app.main import app as fastapi_app
 from app.models.base import Base
 import app.models  # noqa: F401
 
@@ -36,5 +38,15 @@ async def db_session():
     async with TestSession() as session:
         yield session
         await session.rollback()
+
+
+@pytest.fixture(autouse=True)
+def override_app_db(db_session):
+    async def _get_test_db():
+        yield db_session
+
+    fastapi_app.dependency_overrides[get_db] = _get_test_db
+    yield
+    fastapi_app.dependency_overrides.pop(get_db, None)
 
 
