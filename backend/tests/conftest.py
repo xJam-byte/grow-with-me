@@ -6,6 +6,7 @@ from sqlalchemy.pool import NullPool
 
 from app.config import get_settings
 from app.models.base import Base
+import app.models  # noqa: F401
 
 settings = get_settings()
 
@@ -23,9 +24,17 @@ TestSession = async_sessionmaker(
 )
 
 
+@pytest.fixture(autouse=True)
+async def prepare_database():
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+
+
 @pytest.fixture
 async def db_session():
     async with TestSession() as session:
         yield session
         await session.rollback()
+
 

@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     telegram_webhook_secret: str = ""
     telegram_webhook_url: str = ""
 
-    # Database
-    database_url: str = "postgresql+asyncpg://postgres:postgrespassword@localhost:5433/grow_with_me"
+    # Database (native PostgreSQL on 5432 or Docker container)
+    database_url: str = "postgresql+asyncpg://postgres:postgrespassword@localhost:5432/grow_with_me"
 
     # OpenAI
     openai_api_key: str = ""

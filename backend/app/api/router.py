@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api import habits, journal, knowledge, notes, profile, spiritual
+from app.api import ai, habits, journal, knowledge, notes, profile, spiritual
 
 api_router = APIRouter()
 
@@ -18,3 +18,4 @@ api_router.include_router(knowledge.router)
 api_router.include_router(spiritual.router)
 api_router.include_router(journal.router)
 api_router.include_router(notes.router)
+api_router.include_router(ai.router)

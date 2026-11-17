@@ -1,3 +1,4 @@
+from app.models.ai_conversation import AIConversation, AIMessage, AITokenUsage
 from app.models.allah_name import AllahName
 from app.models.base import Base, TimestampMixin
 from app.models.daily_allah_name import DailyAllahName
@@ -23,4 +24,7 @@ __all__ = [
     "DailyAllahName",
     "JournalEntry",
     "Note",
+    "AIConversation",
+    "AIMessage",
+    "AITokenUsage",
 ]
