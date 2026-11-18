@@ -18,12 +18,14 @@ async def get_current_user(
     Extracts and validates Telegram initData from 'Authorization: tma <initData>' header.
     Returns or registers the authenticated User.
     """
+    allow_fallback = settings.is_dev or (settings.owner_telegram_id is not None)
+
     if not authorization:
-        # If in development mode and no auth provided, use fallback dev user
-        if settings.is_dev:
+        # If in development mode or owner fallback configured, use fallback dev user
+        if allow_fallback:
             user_repo = UserRepository(db)
             return await user_repo.get_or_create(
-                telegram_id=settings.owner_telegram_id or 123456789,
+                telegram_id=settings.owner_telegram_id or 1822374775,
                 username="owner",
                 first_name="Owner",
             )
@@ -42,7 +44,7 @@ async def get_current_user(
     parsed_user = parse_and_validate_init_data(
         init_data_raw=token,
         bot_token=settings.telegram_bot_token,
-        allow_dev_fallback=settings.is_dev,
+        allow_dev_fallback=allow_fallback,
     )
 
     if not parsed_user or "id" not in parsed_user:

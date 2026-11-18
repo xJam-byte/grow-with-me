@@ -75,3 +75,4 @@ async def test_data_export_and_reset(db_session):
         reset_res = await ac.post("/api/profile/reset")
         assert reset_res.status_code == 200
         assert reset_res.json()["status"] == "success"
+

@@ -12,6 +12,7 @@ from app.bot.bot import dp, get_bot
 from app.config import get_settings
 from app.database import engine
 from app.models.base import Base
+from app.services.notification_scheduler import start_scheduler, stop_scheduler
 
 logging.basicConfig(
     level=logging.INFO,
@@ -35,26 +36,32 @@ async def lifespan(app: FastAPI):
         except Exception as e:
             logger.warning(f"Could not connect to database on startup: {e}. Check DATABASE_URL.")
 
-    # Start Telegram bot polling in background if token is provided
+    # Start Telegram bot polling and notification scheduler in background if token is provided
     bot_task = None
     bot_instance = get_bot()
     if bot_instance:
         logger.info("Telegram Bot token found. Starting bot polling in background...")
         bot_task = asyncio.create_task(dp.start_polling(bot_instance))
+        start_scheduler()
     else:
         logger.info("No TELEGRAM_BOT_TOKEN set. Skipping bot startup.")
 
     yield
 
     logger.info("Shutting down Grow With Me backend...")
+    stop_scheduler()
+    if bot_instance:
+        try:
+            await dp.stop_polling()
+            await bot_instance.session.close()
+        except Exception:
+            pass
     if bot_task:
         bot_task.cancel()
         try:
             await bot_task
         except asyncio.CancelledError:
             pass
-    if bot_instance:
-        await bot_instance.session.close()
     await engine.dispose()
 
 

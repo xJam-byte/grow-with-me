@@ -31,11 +31,17 @@ def parse_and_validate_init_data(
     try:
         parsed_data = dict(parse_qsl(init_data_raw, keep_blank_values=True))
         received_hash = parsed_data.pop("hash", None)
+        # Remove signature parameter (added in Telegram Bot API 8.0+) before building data-check-string
+        parsed_data.pop("signature", None)
 
         if not received_hash or not bot_token:
             # If no bot token provided and dev mode is active, allow for local testing
             if allow_dev_fallback and "user" in parsed_data:
-                return json.loads(unquote(parsed_data["user"]))
+                user_raw = parsed_data["user"]
+                try:
+                    return json.loads(user_raw)
+                except Exception:
+                    return json.loads(unquote(user_raw))
             return None
 
         # Build data-check-string: key=value sorted alphabetically joined by newline
@@ -59,7 +65,12 @@ def parse_and_validate_init_data(
         if hmac.compare_digest(calculated_hash, received_hash):
             user_data = parsed_data.get("user")
             if user_data:
-                return json.loads(unquote(user_data))
+                if isinstance(user_data, dict):
+                    return user_data
+                try:
+                    return json.loads(user_data)
+                except Exception:
+                    return json.loads(unquote(user_data))
             return parsed_data
         return None
     except Exception:
