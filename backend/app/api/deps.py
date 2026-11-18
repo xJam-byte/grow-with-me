@@ -45,6 +45,7 @@ async def get_current_user(
         init_data_raw=token,
         bot_token=settings.telegram_bot_token,
         allow_dev_fallback=allow_fallback,
+        owner_id=settings.owner_telegram_id,
     )
 
     if not parsed_user or "id" not in parsed_user:
