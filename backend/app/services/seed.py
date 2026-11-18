@@ -171,41 +171,43 @@ async def seed_user_defaults(user_id: int, db: AsyncSession) -> None:
     # 1. Areas
     area_res = await db.execute(select(DevelopmentArea).where(DevelopmentArea.user_id == user_id))
     existing_areas = area_res.scalars().all()
-    area_map = {}
-    if not existing_areas:
-        for area_data in DEFAULT_AREAS:
+    area_map = {a.slug: a.id for a in existing_areas}
+    for area_data in DEFAULT_AREAS:
+        if area_data["slug"] not in area_map:
             area = DevelopmentArea(user_id=user_id, **area_data)
             db.add(area)
             await db.flush()
             area_map[area.slug] = area.id
-    else:
-        area_map = {a.slug: a.id for a in existing_areas}
 
-    # 2. Habits
-    habit_res = await db.execute(select(Habit).where(Habit.user_id == user_id))
-    existing_habits = habit_res.scalars().all()
-    if not existing_habits:
-        for habit_data in DEFAULT_HABITS:
-            category = habit_data["category"]
-            area_id = area_map.get(category)
-            habit = Habit(
-                user_id=user_id,
-                area_id=area_id,
-                **habit_data,
-            )
-            db.add(habit)
+    # 2. Habits (deduplicate by name)
+    habit_res = await db.execute(select(Habit.name).where(Habit.user_id == user_id))
+    existing_habit_names = set(habit_res.scalars().all())
+    for habit_data in DEFAULT_HABITS:
+        if habit_data["name"] in existing_habit_names:
+            continue
+        category = habit_data["category"]
+        area_id = area_map.get(category)
+        habit = Habit(
+            user_id=user_id,
+            area_id=area_id,
+            **habit_data,
+        )
+        db.add(habit)
+        existing_habit_names.add(habit_data["name"])
 
-    # 3. Principles
-    principle_res = await db.execute(select(PersonalPrinciple).where(PersonalPrinciple.user_id == user_id))
-    existing_principles = principle_res.scalars().all()
-    if not existing_principles:
-        for idx, text in enumerate(DEFAULT_PRINCIPLES, start=1):
-            principle = PersonalPrinciple(
-                user_id=user_id,
-                text=text,
-                sort_order=idx,
-            )
-            db.add(principle)
+    # 3. Principles (deduplicate by text)
+    principle_res = await db.execute(select(PersonalPrinciple.text).where(PersonalPrinciple.user_id == user_id))
+    existing_principles = set(principle_res.scalars().all())
+    for idx, text in enumerate(DEFAULT_PRINCIPLES, start=1):
+        if text in existing_principles:
+            continue
+        principle = PersonalPrinciple(
+            user_id=user_id,
+            text=text,
+            sort_order=idx,
+        )
+        db.add(principle)
+        existing_principles.add(text)
 
     await db.flush()
 
